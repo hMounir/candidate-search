@@ -1,0 +1,75 @@
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <button (click)="showDialog()" pButton type="button" label="Add" icon="pi pi-plus"></button>
+  </div>
+</p-toolbar>
+<br/>
+<p-panel header="Search for a Skill">
+  <form [formGroup]="searchSkillsForm" (ngSubmit)="searchSkills()">
+    <div class="ui-g">
+      <div class="ui-g-1"><label for="skillsSearch" class="col-form-label"><strong>Skills</strong></label></div>
+      <div class="ui-g-1"><p-multiSelect [options]="skillsList" formControlName="skills" id="skillsSearch" required="true"></p-multiSelect></div>
+      <div class="ui-g-1"><button pButton type="submit" class="ui-button-success" icon="fa-floppy-o" label="Search" [disabled]="!searchSkillsForm.valid"></button></div>
+    </div>
+  </form>
+</p-panel>
+
+<p-dialog header="Add new Candidate" [(visible)]="display" [modal]="true" [responsive]="true" [style]="{width: '500px', height: '500px'}" [baseZIndex]="10000">
+    <form [formGroup]="newCandidateForm" (ngSubmit)="submit()" style="height: 450px;">
+      <div class="form-group row">
+        <label for="candidate" class="col-sm-3 col-form-label"><strong>Candidate Name</strong></label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" formControlName="candidate" id="candidate" required="true"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="candidate" class="col-sm-3 col-form-label"><strong>Project</strong></label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" formControlName="project" id="project" required="true"/>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="candidate" class="col-sm-3 col-form-label"><strong>Year</strong></label>
+        <div class="col-sm-9">
+          <p-spinner type="text" class="form-control" formControlName="year" id="Year" required="true"></p-spinner>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="skills" class="col-sm-3 col-form-label"><strong>Skills</strong></label>
+        <div class="col-sm-9">
+          <p-multiSelect [options]="skillsList" formControlName="skills" id="skills" required="true"></p-multiSelect>
+        </div>
+      </div>
+      <p-footer>
+        <button pButton type="submit" class="ui-button-success" icon="fa-floppy-o" label="Save" [disabled]="!newCandidateForm.valid"></button>
+        <button pButton type="button" class="ui-button-success" icon="fa-times-circle" label="Cancel" (click)="cancel()"></button>
+      </p-footer>
+    </form>
+</p-dialog>
+<br/>
+<p-messages [(value)]="msgs"></p-messages>
+<div class="content" role="main">
+  <p-table [value]="candidatesList">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Candidate</th>
+        <th>Project</th>
+        <th>Year</th>
+        <th>Skills</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-candidate>
+      <tr>
+        <td>{{candidate.candidate}}</td>
+        <td>{{candidate.project}}</td>
+        <td>{{candidate.year}}</td>
+        <td>{{candidate.skills}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<router-outlet></router-outlet>
